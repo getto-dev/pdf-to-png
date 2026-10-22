@@ -1,4 +1,5 @@
-import { ChangeEvent, DragEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { ChangeEvent, DragEvent } from 'react';
 import {
   ArrowDownToLine, CheckCircle2, FileImage, FileText, HardDrive, Image as ImageIcon,
   LoaderCircle, LockKeyhole, RefreshCw, ShieldCheck, Sparkles, Upload, X, Zap,

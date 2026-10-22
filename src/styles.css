@@ -9,3 +9,8 @@
 
 /* Keep the converter close to the header after removing the introductory sections. */
 .workspace{margin-top:24px}@media(max-width:560px){.workspace{margin-top:16px}}
+
+/* Header description */
+.topbar-description{margin-left:auto;margin-right:24px;color:#767a92;font-size:12px;font-weight:650;white-space:nowrap}
+@media(max-width:800px){.topbar-description{font-size:11px;margin-right:14px}}
+@media(max-width:560px){.topbar{height:auto;min-height:62px;flex-wrap:wrap;padding:10px 0;row-gap:5px}.topbar-description{order:3;flex:0 0 100%;margin:2px 0 0;text-align:center;font-size:11px}.topbar-actions{margin-left:auto}}

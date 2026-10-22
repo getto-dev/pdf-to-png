@@ -283,7 +283,7 @@ function App() {
                       <div className="range-input-wrap"><input id="page-range" value={range} onChange={(event) => setRange(event.target.value)} placeholder="all or 1-3,5,8-10" /><span>#</span></div>
                       <div className="range-chips"><button className={range.toLowerCase() === 'all' ? 'active' : ''} type="button" onClick={() => setRange('all')}>All pages</button><button type="button" onClick={() => setRange('1')}>First page</button><button type="button" onClick={() => setRange(pageCount > 1 ? '1-' + Math.min(3, pageCount) : '1')}>First 3</button></div>
                     </div>
-                    <button className="primary-button convert-button" type="button" disabled={!ready || stage === 'converting'} onClick={() => void convert()}>{stage === 'converting' ? <LoaderCircle className="spin" size={17} /> : <ImageIcon size={17} />}{stage === 'converting' ? 'Converting…' : 'Convert to PNG'} <span>→</span></button>
+                    <button className="primary-button convert-button" type="button" disabled={!ready} onClick={() => void convert()}><ImageIcon size={17} />Convert to PNG <span>→</span></button>
                     <div className="local-note"><ShieldCheck size={16} /><span><strong>100% private.</strong> Your PDF is processed on this device and is never uploaded.</span></div>
                   </aside>
                 </div>

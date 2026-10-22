@@ -6,3 +6,6 @@
 .language-switch button:hover{background:#f4f2ff;color:#6258d5}
 .language-switch button.active{background:#665be5;color:#fff;box-shadow:0 3px 8px #665be52b}
 @media(max-width:560px){.topbar-actions{gap:6px}.language-switch{gap:1px;padding:2px}.language-switch button{min-width:30px;padding:7px 6px}.privacy-pill{max-width:34px;overflow:hidden;white-space:nowrap}}
+
+/* Keep the converter close to the header after removing the introductory sections. */
+.workspace{margin-top:24px}@media(max-width:560px){.workspace{margin-top:16px}}

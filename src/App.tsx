@@ -26,6 +26,15 @@ function formatPageCount(count: number, language: Language): string {
   return count + ' ' + word;
 }
 
+function formatImageCount(count: number, language: Language): string {
+  if (language === 'en') return count + ' ' + (count === 1 ? 'image' : 'images');
+  const lastTwo = count % 100;
+  const last = count % 10;
+  const word = last === 1 && lastTwo !== 11 ? 'изображение'
+    : last >= 2 && last <= 4 && (lastTwo < 12 || lastTwo > 14) ? 'изображения' : 'изображений';
+  return count + ' ' + word;
+}
+
 function formatBytes(bytes: number): string {
   if (bytes < 1024) return bytes + ' B';
   if (bytes < 1024 * 1024) return Math.round(bytes / 1024) + ' KB';
@@ -127,7 +136,9 @@ function App() {
       const message = caught instanceof Error ? caught.message : t('Не удалось прочитать PDF.', 'Unable to read this PDF.');
       setError(message.toLowerCase().includes('password')
         ? t('PDF защищён паролем. Снимите защиту и повторите попытку.', 'This PDF is password-protected. Remove the password protection and try again.')
-        : t('Не удалось открыть PDF. Возможно, файл повреждён или защищён паролем. ', 'Could not open this PDF. It may be damaged or password-protected. ') + message);
+        : language === 'ru'
+          ? 'Не удалось открыть PDF. Возможно, файл повреждён или защищён паролем.'
+          : 'Could not open this PDF. It may be damaged or password-protected. ' + message);
       setStage('empty');
       setFile(null);
       setPageCount(0);
@@ -179,10 +190,12 @@ function App() {
         await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
       }
       if (cancelRef.current) setStatus(t('Конвертация отменена. Готово страниц: ', 'Cancelled · ') + output.length + t('', ' page(s) exported'));
-      else setStatus(t('Готово: ', 'All done · ') + output.length + t(' изображений готово', ' image(s) ready'));
+      else setStatus(t('Готово: ', 'All done · ') + formatImageCount(output.length, language) + t(' готово', ' ready'));
       setStage(output.length ? 'done' : 'ready');
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : t('Не удалось преобразовать PDF.', 'Unable to convert this PDF.'));
+      setError(language === 'en' && caught instanceof Error
+        ? caught.message
+        : t('Не удалось преобразовать PDF. Проверьте файл и повторите попытку.', 'Unable to convert this PDF. Check the file and try again.'));
       setResults(output);
       setStage(output.length ? 'done' : 'ready');
     } finally {
@@ -220,7 +233,9 @@ function App() {
       const zip = await makeZip(results, safeFilename(file?.name || 'pdf-export'));
       downloadBlob(zip, safeFilename(file?.name || 'pdf-export') + '-png.zip');
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : t('Не удалось создать ZIP-архив.', 'Could not create ZIP archive.'));
+      setError(language === 'en' && caught instanceof Error
+        ? caught.message
+        : t('Не удалось создать ZIP-архив.', 'Could not create ZIP archive.'));
     } finally {
       setZipBusy(false);
     }
@@ -296,8 +311,8 @@ function App() {
                     <div className="thumbnail-grid">
                       {thumbs.map((thumb) => (
                         <div className="thumbnail-card" key={thumb.pageNumber}>
-                          <div className="thumbnail-image"><img src={thumb.dataUrl} alt={'Preview of page ' + thumb.pageNumber} /></div>
-                          <span>Page {thumb.pageNumber}</span>
+                          <div className="thumbnail-image"><img src={thumb.dataUrl} alt={t('Предпросмотр страницы ', 'Preview of page ') + thumb.pageNumber} /></div>
+                          <span>{t('Страница ', 'Page ')}{thumb.pageNumber}</span>
                         </div>
                       ))}
                       {pageCount > thumbs.length && <div className="more-pages"><strong>+{pageCount - thumbs.length}</strong><span>{t('ещё страниц', 'more pages')}</span></div>}
@@ -340,7 +355,7 @@ function App() {
 
           {stage === 'done' && results.length > 0 && (
             <section className="results-panel">
-              <div className="results-heading"><span className="success-icon"><CheckCircle2 size={22} /></span><div><h2>{t('PNG-файлы готовы', 'Your PNGs are ready')}</h2><p>{results.length} {t('изображений', 'image(s)')} · {t('файлы остаются на устройстве', 'all files stay on your device')}</p></div></div>
+              <div className="results-heading"><span className="success-icon"><CheckCircle2 size={22} /></span><div><h2>{t('PNG-файлы готовы', 'Your PNGs are ready')}</h2><p>{formatImageCount(results.length, language)} · {t('файлы остаются на устройстве', 'all files stay on your device')}</p></div></div>
               <div className="result-toolbar"><button className="primary-button zip-button" type="button" disabled={zipBusy} onClick={() => void downloadZip()}>{zipBusy ? <LoaderCircle size={15} className="spin" /> : <ArrowDownToLine size={15} />} {zipBusy ? t('Создаём ZIP…', 'Preparing ZIP…') : t('Скачать всё архивом ZIP', 'Download all as ZIP')}</button><span>{t('или скачайте отдельные страницы ниже', 'or download individual pages below')}</span></div>
               <div className="result-list">{results.map((result) => (
                 <div className="result-row" key={result.pageNumber}><span className="result-thumb"><ImageIcon size={17} /></span><div className="result-info"><strong>{safeFilename(file?.name || 'pdf-export')}-page-{String(result.pageNumber).padStart(3, '0')}.png</strong><span>{result.width.toLocaleString()} × {result.height.toLocaleString()} px · {t('изображение PNG', 'PNG image')}</span></div><button className="icon-button download-one" type="button" title={t('Скачать PNG', 'Download PNG')} aria-label={t('Скачать страницу ', 'Download page ') + result.pageNumber} onClick={() => downloadOne(result)}><ArrowDownToLine size={16} /></button></div>

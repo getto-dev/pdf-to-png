@@ -12,6 +12,7 @@ A privacy-first Progressive Web App for converting PDF pages into PNG images. Fi
 - Download individual PNGs or all output as a ZIP archive
 - PWA manifest, service worker, and offline precaching
 - Responsive interface for desktop and mobile
+- Russian interface by default, with an English/Russian language switch; preference is remembered on the device
 
 ## Requirements
 

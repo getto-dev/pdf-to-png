@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, DragEvent } from 'react';
 import {
-  ArrowDownToLine, CheckCircle2, FileImage, FileText, HardDrive, Image as ImageIcon,
-  LoaderCircle, LockKeyhole, RefreshCw, ShieldCheck, Sparkles, Upload, X, Zap,
+  ArrowDownToLine, CheckCircle2, FileImage, FileText, Image as ImageIcon,
+  LoaderCircle, RefreshCw, ShieldCheck, Upload, X,
 } from 'lucide-react';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
 import { canvasToPng, openPdf, parsePageRange, renderPageToCanvas } from './services/pdfService';
@@ -256,22 +256,10 @@ function App() {
             <button type="button" className={language === 'ru' ? 'active' : ''} aria-pressed={language === 'ru'} onClick={() => setLanguage('ru')}>RU</button>
             <button type="button" className={language === 'en' ? 'active' : ''} aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>EN</button>
           </div>
-          <span className="privacy-pill"><ShieldCheck size={15} /> {t('Файлы остаются на устройстве', 'Files stay on your device')}</span>
         </div>
       </header>
 
       <main id="top" className="main-content">
-        <section className="hero">
-          <div className="eyebrow"><Sparkles size={14} /> {t('КОНВЕРТЕР PDF В PNG', 'FREE PDF CONVERTER')}</div>
-          <h1>{t('Каждая страница.', 'Every page.')}<br /><span>{t('Сохранена идеально.', 'Perfectly captured.')}</span></h1>
-          <p className="hero-copy">{t('Преобразуйте страницы PDF в чёткие PNG за секунды. Конфиденциально: без загрузки файлов на сервер и ожидания.', 'Turn PDF pages into crisp PNG images in seconds. Private by design, with no uploads and no waiting.')}</p>
-          <div className="hero-benefits">
-            <span><LockKeyhole size={15} /> {t('100% конфиденциально', '100% private')}</span>
-            <span><Zap size={15} /> {t('Быстрая конвертация', 'Fast conversion')}</span>
-            <span><HardDrive size={15} /> {t('Работает офлайн', 'Works offline')}</span>
-          </div>
-        </section>
-
         <section className={'workspace ' + (file ? 'has-file' : '')} aria-label={t('Рабочая область конвертации PDF', 'PDF conversion workspace')}>
           {!file && (
             <div
@@ -368,20 +356,8 @@ function App() {
           {busy && stage === 'loading' && <p className="loading-footnote">{t('Большой PDF может обрабатываться дольше. Всё выполняется локально в браузере.', 'Large PDF files may take a moment. Everything runs locally in your browser.')}</p>}
         </section>
 
-        {!file && (
-          <section className="how-it-works">
-            <div className="section-kicker">{t('КАК ЭТО РАБОТАЕТ', 'HOW IT WORKS')}</div><h2>{t('Из PDF в PNG за 3 простых шага', 'From PDF to PNG in 3 simple steps')}</h2>
-            <div className="steps-grid">
-              <article className="step-card"><span className="step-number">01</span><span className="step-icon purple"><Upload size={19} /></span><h3>{t('Загрузите PDF', 'Upload your PDF')}</h3><p>{t('Выберите файл или перетащите его в рабочую область. Он останется на вашем устройстве.', 'Choose a file or drag it into the workspace. It stays on your device.')}</p></article>
-              <article className="step-card"><span className="step-number">02</span><span className="step-icon orange"><ImageIcon size={19} /></span><h3>{t('Настройте экспорт', 'Choose your settings')}</h3><p>{t('Выберите страницы и качество изображения под свои задачи.', 'Select page ranges and the image quality that suits your needs.')}</p></article>
-              <article className="step-card"><span className="step-number">03</span><span className="step-icon green"><ArrowDownToLine size={19} /></span><h3>{t('Скачайте PNG', 'Download your PNGs')}</h3><p>{t('Сохраняйте страницы по отдельности или соберите все изображения в один ZIP-архив.', 'Save pages individually or bundle every converted image into one ZIP.')}</p></article>
-            </div>
-          </section>
-        )}
-        <section className="trust-strip"><div className="trust-item"><ShieldCheck size={17} /><div><strong>{t('Конфиденциальность', 'Private by design')}</strong><small>{t('Без загрузки на сервер', 'No server uploads')}</small></div></div><div className="trust-item"><Zap size={17} /><div><strong>{t('Быстро и просто', 'Fast & lightweight')}</strong><small>{t('Работает в браузере', 'Runs in your browser')}</small></div></div><div className="trust-item"><HardDrive size={17} /><div><strong>{t('Работает офлайн', 'Works offline')}</strong><small>{t('После первого посещения', 'After the first visit')}</small></div></div></section>
       </main>
 
-      <footer className="footer"><a className="footer-brand" href="#top"><FileImage size={17} /> pdftopng</a><span>{t('Простые инструменты. Ваша приватность важна.', 'Simple tools. Private by design.')}</span><span>{t('PDF не покидают устройство', 'PDFs never leave your device')} <LockKeyhole size={13} /></span></footer>
       <input ref={inputRef} className="visually-hidden" type="file" accept="application/pdf,.pdf" onChange={onFileInput} />
       <canvas ref={canvasRef} className="render-canvas" aria-hidden="true" />
     </div>

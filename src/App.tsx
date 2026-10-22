@@ -251,6 +251,7 @@ function App() {
           <span className="brand-mark"><FileImage size={22} /></span>
           <span className="brand-name">pdf<span>to</span>png</span>
         </a>
+        <div className="topbar-description">{t('Преобразование PDF в картинки', 'Convert PDF to images')}</div>
         <div className="topbar-actions">
           <div className="language-switch" role="group" aria-label={t('Язык интерфейса', 'Interface language')}>
             <button type="button" className={language === 'ru' ? 'active' : ''} aria-pressed={language === 'ru'} onClick={() => setLanguage('ru')}>RU</button>
@@ -277,7 +278,6 @@ function App() {
               <h2>{t('Перетащите PDF сюда', 'Drop your PDF here')}</h2>
               <p>{t('или выберите файл на устройстве', 'or click to browse files on your device')}</p>
               <button className="primary-button choose-button" type="button" onClick={(event) => { event.stopPropagation(); inputRef.current?.click(); }}><Upload size={16} /> {t('Выбрать PDF', 'Choose PDF file')} <span>→</span></button>
-              <div className="dropzone-foot"><span><ShieldCheck size={13} /> {t('Конфиденциально', 'Private & secure')}</span><i /> <span>{t('Только PDF', 'PDF files only')}</span><i /> <span>{t('Без ограничений сервера', 'No file-size upload limit')}</span></div>
             </div>
           )}
 

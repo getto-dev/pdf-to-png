@@ -9,9 +9,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/app-icon.svg'],
       manifest: {
-        name: 'PDF to PNG',
-        short_name: 'PDF to PNG',
-        description: 'Convert PDF pages into PNG images locally in your browser.',
+        name: 'PDF в PNG',
+        short_name: 'PDF в PNG',
+        description: 'Преобразуйте страницы PDF в PNG локально в браузере.',
         theme_color: '#f7f8fc',
         background_color: '#f7f8fc',
         display: 'standalone',

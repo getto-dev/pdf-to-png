@@ -179,7 +179,7 @@ function App() {
         await new Promise<void>((resolve) => window.setTimeout(resolve, 0));
       }
       if (cancelRef.current) setStatus(t('Конвертация отменена. Готово страниц: ', 'Cancelled · ') + output.length + t('', ' page(s) exported'));
-      else setStatus(t('Готово: изображений ', 'All done · ') + output.length + t(' готово', ' image(s) ready'));
+      else setStatus(t('Готово: ', 'All done · ') + output.length + t(' изображений готово', ' image(s) ready'));
       setStage(output.length ? 'done' : 'ready');
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : t('Не удалось преобразовать PDF.', 'Unable to convert this PDF.'));
@@ -300,7 +300,7 @@ function App() {
                           <span>Page {thumb.pageNumber}</span>
                         </div>
                       ))}
-                      {pageCount > thumbs.length && <div className="more-pages"><strong>+{pageCount - thumbs.length}</strong><span>more pages</span></div>}
+                      {pageCount > thumbs.length && <div className="more-pages"><strong>+{pageCount - thumbs.length}</strong><span>{t('ещё страниц', 'more pages')}</span></div>}
                     </div>
                     <button className="text-button" type="button" onClick={() => inputRef.current?.click()}><RefreshCw size={13} /> {t('Заменить PDF', 'Replace PDF')}</button>
                   </section>
@@ -309,13 +309,13 @@ function App() {
                     <div className="setting-group">
                       <div className="setting-title"><label>{t('Качество изображения', 'Image quality')}</label><span>{t('Выше качество — больше файл', 'Higher = larger file')}</span></div>
                       <div className="quality-options">
-                        {[{ value: 1, title: t('Стандарт', 'Standard'), desc: '1×' }, { value: 2, title: t('Высокое', 'High'), desc: '2×' }, { value: 3, title: 'Ultra', desc: '3×' }].map((option) => (
+                        {[{ value: 1, title: t('Стандарт', 'Standard'), desc: '1×' }, { value: 2, title: t('Высокое', 'High'), desc: '2×' }, { value: 3, title: t('Максимум', 'Ultra'), desc: '3×' }].map((option) => (
                           <button type="button" key={option.value} className={'quality-option ' + (quality === option.value ? 'selected' : '')} onClick={() => setQuality(option.value)}>
                             <span className="quality-check">{quality === option.value ? '✓' : ''}</span><strong>{option.title}</strong><small>{option.desc}</small>
                           </button>
                         ))}
                       </div>
-                      <p className="setting-hint">{t('Для большинства документов рекомендуем «Высокое». Режим Ultra создаёт файлы большего размера и использует больше памяти.', 'High is recommended for most documents. Ultra creates larger images and uses more memory.')}</p>
+                      <p className="setting-hint">{t('Для большинства документов рекомендуем «Высокое». Максимальное качество создаёт файлы большего размера и использует больше памяти.', 'High is recommended for most documents. Ultra creates larger images and uses more memory.')}</p>
                     </div>
                     <div className="setting-group">
                       <div className="setting-title"><label htmlFor="page-range">{t('Страницы для конвертации', 'Pages to convert')}</label><span>{range.toLowerCase() === 'all' ? t('Все страницы', 'All pages') : t('Выбранный диапазон', 'Custom range')}</span></div>
